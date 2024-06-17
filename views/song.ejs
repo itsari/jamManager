@@ -34,31 +34,19 @@
         <pre><%= line.lyrics %></pre>
       </div>
     </div>
-    <% }) %> <%- include('footer') %>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const chords = document.querySelectorAll(".chord");
-        chords.forEach((chordElem) => {
-          chordElem.addEventListener("mouseover", function (event) {
-            const chord = event.target.getAttribute("data-chord");
-            const tooltip = document.createElement("div");
-            tooltip.className = "chord-tooltip";
-            document.body.appendChild(tooltip);
-            VexChords.draw(tooltip, {
-              chord,
-              instrument: "guitar",
-              position: { top: event.clientY + 10, left: event.clientX + 10 },
-            });
-            tooltip.style.display = "block";
-            tooltip.style.top = `${event.clientY + 10}px`;
-            tooltip.style.left = `${event.clientX + 10}px`;
 
-            event.target.addEventListener("mouseout", function () {
-              tooltip.remove();
-            });
-          });
-        });
-      });
-    </script>
+    <% }) %>
+    <div class="youtube-play">
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/<%= song.youtube_link %>"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <%- include('footer') %>
   </body>
 </html>
