@@ -3,10 +3,10 @@ const db = require('./database');
 const Song = {
     create: (name, artist, album, length, text, youtube_link, userId, callback) => {
         const sql = `
-            INSERT INTO songs (name, artist, album, length, text, youtube_link, userid)
+            INSERT INTO songs (name, artist, album, tempo, text, youtube_link, userid)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
-        const values = [name, artist, album, length, text, youtube_link, userId];
+        const values = [name, artist, album, tempo, text, youtube_link, userId];
 
         db.run(sql, values, function (err) {
             if (err) {
@@ -40,9 +40,9 @@ const Song = {
         });
     },
     //update song by id
-    updateById: (id, name, artist, album, length, text, youtube_link, callback) => {
-        const sql = 'UPDATE songs SET name =?, artist =?, album =?, length =?, text =?, youtube_link =? WHERE id =?';
-        const values = [name, artist, album, length, text, youtube_link, id];
+    updateById: (id, name, artist, album, tempo, text, youtube_link, callback) => {
+        const sql = 'UPDATE songs SET name =?, artist =?, album =?, tempo =?, text =?, youtube_link =? WHERE id =?';
+        const values = [name, artist, album, tempo, text, youtube_link, id];
         db.run(sql, values, function (err) {
             if (err) {
                 return callback(err);

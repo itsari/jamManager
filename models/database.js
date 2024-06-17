@@ -16,7 +16,7 @@ db.serialize(() => {
       name TEXT NOT NULL,
       artist TEXT NOT NULL,
       album TEXT NOT NULL,
-      length TEXT NOT NULL,
+      tempo TEXT NOT NULL,
       text TEXT NOT NULL,
       youtube_link TEXT NOT NULL,
       userid INTEGER,
