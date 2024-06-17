@@ -37,3 +37,14 @@ exports.show = (req, res) => {
         res.render('song', { song, parsedLyrics });
     });
 };
+//delete song by iy
+
+exports.delete = (req, res) => {
+    const songId = req.params.id;
+    Song.deleteById(songId, (err) => {
+        if (err) {
+            return res.status(500).send('Error deleting song');
+        }
+        res.redirect('/songs');
+    });
+};

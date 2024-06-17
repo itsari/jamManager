@@ -14,4 +14,7 @@ router.post('/songs', songController.create);
 // Route to show a specific song by ID
 router.get('/songs/:id', songController.show);
 
+// Route to show a specific song by ID
+router.get('/songs/delete/:id', songController.delete);
+
 module.exports = router;

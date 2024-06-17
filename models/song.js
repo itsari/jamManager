@@ -28,6 +28,27 @@ const Song = {
         db.get(sql, [id], (err, row) => {
             callback(err, row);
         });
+    },
+    //delete song by id
+    deleteById: (id, callback) => {
+        const sql = 'DELETE FROM songs WHERE id =?';
+        db.run(sql, [id], function (err) {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, this.lastID);
+        });
+    },
+    //update song by id
+    updateById: (id, name, artist, album, length, text, youtube_link, callback) => {
+        const sql = 'UPDATE songs SET name =?, artist =?, album =?, length =?, text =?, youtube_link =? WHERE id =?';
+        const values = [name, artist, album, length, text, youtube_link, id];
+        db.run(sql, values, function (err) {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, this.lastID);
+        });
     }
 };
 
