@@ -22,6 +22,15 @@
       .chords {
         font-size: 16px; /* Default font size */
       }
+      .scroll-controls {
+        margin: 10px 0;
+      }
+      .scroll-container {
+        height: 400px; /* Set a height to make the div scrollable */
+        overflow-y: auto; /* Enable vertical scrolling */
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
     </style>
   </head>
   <body>
@@ -29,23 +38,36 @@
     <h2><%= song.name %> by <%= song.artist %></h2>
     <p><strong>Album:</strong> <%= song.album %></p>
     <p><strong>Tempo:</strong> <%= song.tempo %></p>
+
     <div class="font-size-control">
       <label for="font-size-range">Font Size:</label>
       <input type="range" id="font-size-range" min="10" max="30" value="16" />
     </div>
-    <h3>Lyrics and Chords</h3>
-    <% parsedLyrics.forEach(line => { %>
-    <div>
-      <div class="chords">
-        <% line.chords.forEach(chord => { %>
-        <span class="chord" data-chord="<%= chord %>"><%= chord %></span>
-        <% }) %>
-      </div>
-      <div class="lyrics">
-        <pre><%= line.lyrics %></pre>
-      </div>
+
+    <div class="scroll-controls">
+      <button onclick="startScroll(1)">X1</button>
+      <button onclick="startScroll(2)">X2</button>
+      <button onclick="startScroll(3)">X3</button>
+      <button onclick="startScroll(4)">X4</button>
+      <button onclick="startScroll(5)">X5</button>
+      <button onclick="stopScroll()">Stop</button>
     </div>
-    <% }) %>
+
+    <h3>Lyrics and Chords</h3>
+    <div class="scroll-container" id="scroll-container">
+      <% parsedLyrics.forEach(line => { %>
+      <div>
+        <div class="chords">
+          <% line.chords.forEach(chord => { %>
+          <span class="chord" data-chord="<%= chord %>"><%= chord %></span>
+          <% }) %>
+        </div>
+        <div class="lyrics">
+          <pre><%= line.lyrics %></pre>
+        </div>
+      </div>
+      <% }) %>
+    </div>
     <div class="youtube-play">
       <iframe
         width="560"
@@ -69,6 +91,30 @@
               element.style.fontSize = newSize;
             });
         });
+
+      let scrollInterval;
+
+      function startScroll(speed) {
+        stopScroll(); // Stop any existing scrolling
+
+        const speedMapping = {
+          1: 100,
+          2: 80,
+          3: 60,
+          4: 40,
+          5: 20,
+        };
+
+        const scrollSpeed = speedMapping[speed];
+        const scrollContainer = document.getElementById("scroll-container");
+        scrollInterval = setInterval(() => {
+          scrollContainer.scrollBy(0, 1);
+        }, scrollSpeed);
+      }
+
+      function stopScroll() {
+        clearInterval(scrollInterval);
+      }
     </script>
   </body>
 </html>
