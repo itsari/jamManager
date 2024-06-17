@@ -2,18 +2,63 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title><%= song.name %></title>
+    <title>jamManager - <%= song.name %></title>
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vexflow/1.2.83/vexflow-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vexchords@1.2.0/dist/vexchords.dev.min.js"></script>
+    <style>
+      .chord-tooltip {
+        display: none;
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 5px;
+        z-index: 10;
+      }
+    </style>
   </head>
   <body>
     <%- include('header') %>
-    <h2><%= song.name %></h2>
-    <p>Artist: <%= song.artist %></p>
-    <p>Album: <%= song.album %></p>
-    <p>Length: <%= song.length %></p>
-    <p>Lyrics and Chords:</p>
-    <pre><%= song.text %></pre>
-    <p><a href="<%= song.youtube_link %>">YouTube Link</a></p>
-    <%- include('footer') %>
+    <h2><%= song.name %> by <%= song.artist %></h2>
+    <p><strong>Album:</strong> <%= song.album %></p>
+    <p><strong>Length:</strong> <%= song.length %></p>
+    <h3>Lyrics and Chords</h3>
+    <% parsedLyrics.forEach(line => { %>
+    <div>
+      <div class="chords">
+        <% line.chords.forEach(chord => { %>
+        <span class="chord" data-chord="<%= chord %>"><%= chord %></span>
+        <% }) %>
+      </div>
+      <div class="lyrics">
+        <pre><%= line.lyrics %></pre>
+      </div>
+    </div>
+    <% }) %> <%- include('footer') %>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const chords = document.querySelectorAll(".chord");
+        chords.forEach((chordElem) => {
+          chordElem.addEventListener("mouseover", function (event) {
+            const chord = event.target.getAttribute("data-chord");
+            const tooltip = document.createElement("div");
+            tooltip.className = "chord-tooltip";
+            document.body.appendChild(tooltip);
+            VexChords.draw(tooltip, {
+              chord,
+              instrument: "guitar",
+              position: { top: event.clientY + 10, left: event.clientX + 10 },
+            });
+            tooltip.style.display = "block";
+            tooltip.style.top = `${event.clientY + 10}px`;
+            tooltip.style.left = `${event.clientX + 10}px`;
+
+            event.target.addEventListener("mouseout", function () {
+              tooltip.remove();
+            });
+          });
+        });
+      });
+    </script>
   </body>
 </html>

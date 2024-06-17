@@ -30,7 +30,7 @@ footer {
     color: #fff;
     text-align: center;
     padding: 1rem;
-    position: absolute;
+    position: sticky;
     width: 100%;
     bottom: 0;
 }

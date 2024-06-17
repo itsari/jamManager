@@ -1,25 +1,37 @@
 const Song = require('../models/song');
+const parseLyrics = require("../helper/parseLyrics");
 
 exports.list = (req, res) => {
     Song.findAll((err, songs) => {
-        if (err) return res.sendStatus(500);
+        if (err) {
+            return res.status(500).send('Error retrieving songs');
+        }
         res.render('songs', { songs });
     });
 };
 
-exports.show = (req, res) => {
-    const { id } = req.params;
-    Song.findById(id, (err, song) => {
-        if (err) return res.sendStatus(500);
-        res.render('song', { song });
-    });
+exports.new = (req, res) => {
+    res.render('addSong');
 };
 
 exports.create = (req, res) => {
     const { name, artist, album, length, text, youtube_link } = req.body;
-    const userid = req.session.userId;
-    Song.create(name, artist, album, length, text, youtube_link, userid, (err) => {
-        if (err) return res.sendStatus(500);
+    const userId = req.session.userId;
+    Song.create({ name, artist, album, length, text, youtube_link, userId }, (err) => {
+        if (err) {
+            return res.status(500).send('Error adding song');
+        }
         res.redirect('/songs');
+    });
+};
+
+exports.show = (req, res) => {
+    const songId = req.params.id;
+    Song.findById(songId, (err, song) => {
+        if (err || !song) {
+            return res.status(404).send('Song not found');
+        }
+        const parsedLyrics = parseLyrics(song.text);
+        res.render('song', { song, parsedLyrics });
     });
 };
