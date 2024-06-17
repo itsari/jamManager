@@ -30,7 +30,17 @@
       }
     </style>
   </head>
+
   <body>
+    <!-- start fake authenticTION -->
+    <% if (!user) { %>
+    <!-- redirect to /login -->
+    <script>
+      window.location.href = "/login";
+    </script>
+
+    <% } %>
+    <!-- end fake authenticTION -->
     <%- include('header') %>
     <h2><%= song.name %> by <%= song.artist %></h2>
     <p><strong>Album:</strong> <%= song.album %></p>

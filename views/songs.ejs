@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
+    <!-- start fake authenticTION -->
+    <% if (!user) { %>
+    <!-- redirect to /login -->
+    <script>
+      window.location.href = "/login";
+    </script>
+
+    <% } %>
+    <!-- end fake authenticTION -->
     <%- include('header') %>
     <h2>Songs</h2>
     <ul>
