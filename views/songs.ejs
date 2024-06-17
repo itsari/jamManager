@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Songs</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <%- include('header') %>
+    <h2>Songs</h2>
+    <ul>
+      <% songs.forEach(song => { %>
+      <li>
+        <a href="/songs/<%= song.id %>"
+          ><%= song.name %> by <%= song.artist %></a
+        >
+      </li>
+      <% }) %>
+    </ul>
+    <h3>Add a new song</h3>
+    <form action="/songs" method="POST">
+      <label for="name">Name:</label>
+      <input type="text" name="name" required />
+      <label for="artist">Artist:</label>
+      <input type="text" name="artist" required />
+      <label for="album">Album:</label>
+      <input type="text" name="album" required />
+      <label for="length">Length:</label>
+      <input type="text" name="length" required />
+      <label for="text">Lyrics and Chords:</label>
+      <textarea name="text" required></textarea>
+      <label for="youtube_link">YouTube Link:</label>
+      <input type="text" name="youtube_link" required />
+      <button type="submit">Add Song</button>
+    </form>
+    <%- include('footer') %>
+  </body>
+</html>

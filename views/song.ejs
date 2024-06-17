@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title><%= song.name %></title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <%- include('header') %>
+    <h2><%= song.name %></h2>
+    <p>Artist: <%= song.artist %></p>
+    <p>Album: <%= song.album %></p>
+    <p>Length: <%= song.length %></p>
+    <p>Lyrics and Chords:</p>
+    <pre><%= song.text %></pre>
+    <p><a href="<%= song.youtube_link %>">YouTube Link</a></p>
+    <%- include('footer') %>
+  </body>
+</html>
