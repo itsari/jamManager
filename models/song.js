@@ -1,7 +1,7 @@
 const db = require('./database');
 
 const Song = {
-    create: (name, artist, album, length, text, youtube_link, userId, callback) => {
+    create: (name, artist, album, tempo, text, youtube_link, userId, callback) => {
         const sql = `
             INSERT INTO songs (name, artist, album, tempo, text, youtube_link, userid)
             VALUES (?, ?, ?, ?, ?, ?, ?)

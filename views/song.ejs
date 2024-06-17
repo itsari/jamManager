@@ -15,13 +15,24 @@
         padding: 5px;
         z-index: 10;
       }
+      .font-size-control {
+        margin: 10px 0;
+      }
+      .lyrics,
+      .chords {
+        font-size: 16px; /* Default font size */
+      }
     </style>
   </head>
   <body>
     <%- include('header') %>
     <h2><%= song.name %> by <%= song.artist %></h2>
     <p><strong>Album:</strong> <%= song.album %></p>
-    <p><strong>tempo:</strong> <%= song.tempo %></p>
+    <p><strong>Tempo:</strong> <%= song.tempo %></p>
+    <div class="font-size-control">
+      <label for="font-size-range">Font Size:</label>
+      <input type="range" id="font-size-range" min="10" max="30" value="16" />
+    </div>
     <h3>Lyrics and Chords</h3>
     <% parsedLyrics.forEach(line => { %>
     <div>
@@ -34,7 +45,6 @@
         <pre><%= line.lyrics %></pre>
       </div>
     </div>
-
     <% }) %>
     <div class="youtube-play">
       <iframe
@@ -48,16 +58,17 @@
       ></iframe>
     </div>
     <%- include('footer') %>
+    <script>
+      document
+        .getElementById("font-size-range")
+        .addEventListener("input", function () {
+          var newSize = this.value + "px";
+          document
+            .querySelectorAll(".lyrics, .chords")
+            .forEach(function (element) {
+              element.style.fontSize = newSize;
+            });
+        });
+    </script>
   </body>
 </html>
-
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/BciS5krYL80?si=YPWBaJ_gfFq2BUq3"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen
-></iframe>
