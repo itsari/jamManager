@@ -14,10 +14,12 @@ exports.new = (req, res) => {
     res.render('addSong');
 };
 
+// Route to add a new song
 exports.create = (req, res) => {
     const { name, artist, album, length, text, youtube_link } = req.body;
     const userId = req.session.userId;
-    Song.create({ name, artist, album, length, text, youtube_link, userId }, (err) => {
+
+    Song.create(name, artist, album, length, text, youtube_link, userId, (err, songId) => {
         if (err) {
             return res.status(500).send('Error adding song');
         }
