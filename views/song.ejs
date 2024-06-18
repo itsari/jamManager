@@ -21,6 +21,8 @@
       .lyrics,
       .chords {
         font-size: 16px; /* Default font size */
+        white-space: pre; /* Preserve white spaces */
+        font-family: monospace; /* Use a monospaced font to align chords and lyrics */
       }
       .scroll-container {
         height: 400px; /* Set a height to make the div scrollable */
@@ -30,7 +32,6 @@
       }
     </style>
   </head>
-
   <body>
     <!-- start fake authentication -->
     <% if (!user) { %>
@@ -67,11 +68,14 @@
     <h3>Lyrics and Chords</h3>
     <div class="scroll-container" id="scroll-container">
       <% parsedLyrics.forEach(line => { %>
-      <div>
+      <div class="lyrics-chords-line">
         <div class="chords">
-          <% line.chords.forEach(chord => { %>
-          <span class="chord" data-chord="<%= chord %>"><%= chord %></span>
-          <% }) %>
+          <% let chordLine = ""; %> <% let lastOffset = 0; %> <%
+          line.chords.forEach(chordObj => { %> <% const spaces = chordObj.offset
+          - lastOffset; %> <% chordLine += " ".repeat(spaces) + chordObj.chord;
+          %> <% lastOffset = chordObj.offset + chordObj.chord.length; %> <% })
+          %>
+          <pre><%= chordLine %></pre>
         </div>
         <div class="lyrics">
           <pre><%= line.lyrics %></pre>
