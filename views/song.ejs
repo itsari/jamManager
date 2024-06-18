@@ -32,15 +32,14 @@
   </head>
 
   <body>
-    <!-- start fake authenticTION -->
+    <!-- start fake authentication -->
     <% if (!user) { %>
     <!-- redirect to /login -->
     <script>
       window.location.href = "/login";
     </script>
-
     <% } %>
-    <!-- end fake authenticTION -->
+    <!-- end fake authentication -->
     <%- include('header') %>
     <h2><%= song.name %> by <%= song.artist %></h2>
     <p><strong>Album:</strong> <%= song.album %></p>
@@ -92,7 +91,6 @@
       ></iframe>
     </div>
     <%- include('footer') %>
-    <script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal@4.10.0/dist/index.min.js"></script>
     <script>
       document
         .getElementById("font-size-range")
@@ -129,25 +127,37 @@
         clearInterval(scrollInterval);
       }
 
-      function transposeChords(semitones) {
-        // Check if tonal is loaded correctly
-        if (typeof tonal === "undefined") {
-          console.error("Tonal library not loaded");
-          return;
+      function transpose(chord, increment) {
+        var cycle = [
+          "C",
+          "C#",
+          "D",
+          "D#",
+          "E",
+          "F",
+          "F#",
+          "G",
+          "G#",
+          "A",
+          "A#",
+          "B",
+        ];
+        var el = chord.charAt(0);
+        if (chord.length > 1 && chord.charAt(1) == "#") {
+          el += "#";
         }
+        var ind = cycle.indexOf(el);
+        var newInd = (ind + increment + cycle.length) % cycle.length;
+        var newChord = cycle[newInd];
+        return newChord + chord.substring(el.length);
+      }
 
+      function transposeChords(semitones) {
         document.querySelectorAll(".chord").forEach(function (element) {
           let originalChord = element.getAttribute("data-chord");
-          try {
-            let transposedChord = tonal.transpose(
-              originalChord,
-              tonal.Interval.fromSemitones(semitones)
-            );
-            element.innerText = transposedChord;
-            element.setAttribute("data-chord", transposedChord);
-          } catch (error) {
-            console.error("Error transposing chord:", originalChord, error);
-          }
+          let transposedChord = transpose(originalChord, semitones);
+          element.innerText = transposedChord;
+          element.setAttribute("data-chord", transposedChord);
         });
       }
     </script>
